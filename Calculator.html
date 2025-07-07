@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="header.css" />
+    <meta charset="UTF-8" />
+    <title>Aquarium Volume Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+          font-family: 'Segoe UI', sans-serif;
+          background: linear-gradient(to bottom, #d0f0ff, #a8e0ff);
+          margin: 0;
+          padding: 20px;
+        }
+
+        /* Removed max-width so header spans full width */
+        #header-placeholder {
+          width: 100%;
+        }
+
+        .calculator {
+          background-color: white;
+          padding: 30px;
+          border-radius: 15px;
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+          width: 100%;
+          max-width: 450px;
+          margin: 40px auto;
+          text-align: center;
+        }
+
+        h1 {
+          color: #0077b6;
+        }
+
+        input, select {
+          width: 80%;
+          padding: 10px;
+          margin: 10px 0;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+        }
+
+        button {
+          background-color: #0077b6;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+          background-color: #005f8d;
+        }
+
+        #result {
+          margin-top: 20px;
+          font-size: 18px;
+          font-weight: bold;
+          color: #023e8a;
+        }
+
+        label {
+          display: block;
+          margin-top: 10px;
+          font-weight: bold;
+          color: #555;
+        }
+    </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+
+<div class="calculator">
+    <h1>Aquarium Volume Calculator</h1>
+    <p>Enter your tank dimensions and select your preferred units.</p>
+
+    <input type="number" id="length" placeholder="Length" />
+    <input type="number" id="width" placeholder="Width" />
+    <input type="number" id="height" placeholder="Height" />
+
+    <label for="unit">Measurement Unit:</label>
+    <select id="unit">
+        <option value="cm">Centimetres (cm)</option>
+        <option value="mm">Millimetres (mm)</option>
+        <option value="inches">Inches (in)</option>
+    </select>
+
+    <label for="outputUnit">Output Unit:</label>
+    <select id="outputUnit">
+        <option value="litres">Litres</option>
+        <option value="gallons">US Gallons</option>
+    </select>
+
+    <br /><br />
+    <button onclick="calculateVolume()">Calculate</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    fetch('header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+
+    function convertToCm(value, unit) {
+      switch(unit) {
+        case 'cm': return value;
+        case 'mm': return value / 10;
+        case 'inches': return value * 2.54;
+        default: return value;
+      }
+    }
+
+    function convertFromLitres(litres, outputUnit) {
+      if (outputUnit === 'gallons') {
+        return litres / 3.78541;
+      }
+      return litres;
+    }
+
+    function getUnitLabel(unit) {
+      return unit === 'gallons' ? 'gallons' : 'litres';
+    }
+
+    function calculateVolume() {
+      const length = parseFloat(document.getElementById("length").value);
+      const width = parseFloat(document.getElementById("width").value);
+      const height = parseFloat(document.getElementById("height").value);
+      const unit = document.getElementById("unit").value;
+      const outputUnit = document.getElementById("outputUnit").value;
+
+      if (isNaN(length) || isNaN(width) || isNaN(height)) {
+        document.getElementById("result").innerText = "Please enter valid numbers.";
+        return;
+      }
+
+      const l = convertToCm(length, unit);
+      const w = convertToCm(width, unit);
+      const h = convertToCm(height, unit);
+
+      const litres = (l * w * h) / 1000;
+      const finalValue = convertFromLitres(litres, outputUnit);
+      const unitLabel = getUnitLabel(outputUnit);
+
+      document.getElementById("result").innerText =
+        `Your aquarium holds approximately ${finalValue.toFixed(2)} ${unitLabel}.`;
+    }
+</script>
+</body>
+</html>
