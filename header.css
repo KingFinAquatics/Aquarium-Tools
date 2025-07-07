@@ -1,0 +1,61 @@
+:root {
+  --primary-color: #004e64;
+  --accent-color: #00a6a6;
+  --font-main: 'Segoe UI', sans-serif;
+}
+
+/* Reset margins and paddings on everything */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Reset html and body */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+}
+
+header {
+  width: 100vw; /* full viewport width */
+  position: relative;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 20px 40px;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.container {
+  width: 100%; /* full width container */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
